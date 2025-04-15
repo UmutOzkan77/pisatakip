@@ -16,8 +16,6 @@ def main():
     # 2. Şu an siteden HTML içerik çek
     try:
         response = requests.get(URL, timeout=10)
-# TEST AMACIYLA new_text'i zorla değiştir
-new_text += "TEST_Icin_zorlama_degisim"
         new_text = response.text.strip()  # Tüm HTML
     except Exception as e:
         # Siteye ulaşamazsak bile Telegram'dan hata mesajı atmak isteyebilirsin
