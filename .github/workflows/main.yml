@@ -1,0 +1,34 @@
+name: Pisa Website Monitor
+
+on:
+  # Her push'ta tetiklemek istersen (değişiklik yaptığında)
+  push:
+    branches: [ "main" ]
+  
+  # Belirli aralıklarla çalıştırmak için cron kullanıyoruz:
+  schedule:
+    # Aşağıdaki "cron" ayarı her saat başı demektir (UTC saatiyle).
+    - cron: "0 * * * *"
+
+jobs:
+  check_website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          pip install requests python-telegram-bot==20.3
+
+      - name: Run check script
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: |
+          python checker.py
